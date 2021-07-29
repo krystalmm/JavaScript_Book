@@ -48,3 +48,44 @@ function getBirthYear3(person) {
 
 greet3(user);
 console.log(getBirthYear3(user));
+
+
+/** ブロックスコープ */
+console.log("ブロックの前");
+{
+  console.log("ブロック内");
+  const x = 3;
+  console.log(x);
+}
+// console.log(x); // エラーになる！！
+
+
+/** 変数の隠蔽 */
+// スコープが入れ子になった場合を見てみる！
+{ /* 外側のブロックの始まり */
+  let x = "青";
+  console.log(x);  // 青
+  { /* 内側のブロックの始まり */
+    let x = 3;
+    console.log(x);  // 3
+  } /* 内側のブロックの終わり  */
+  console.log(x);  // 青
+} /* 外側のブロックの終わり */
+
+
+// もう一つ例を見てみる！
+{ /* 外側のブロックの始まり */
+  let x = {color: "青"};
+  let y = x;  // yとxが同じオブジェクトを参照する
+  let z = 3;
+  { /* 内側のブロックの始まり */
+    let x = 5; // 外側のxが「マスク」される（隠されてしまう）
+    console.log(x);  // 5
+    console.log(y.color); // 青（yによって参照されているオブジェクトは相変わらずスコープに入っている！外側のブロックのxもスコープには入っている！）
+    y.color = "赤";
+    console.log(z);  // 3（zはマスクされていない）
+  } /* 内側のブロックの終わり */
+  console.log(x.color);  // 赤（内側のスコープでオブジェクトに変更がなされた）
+  console.log(y.color);  // 赤（xとyは同じオブジェクトを参照している）
+  console.log(z);  // 3
+} /* 外側のブロックの終わり */
