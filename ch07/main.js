@@ -130,3 +130,39 @@ console.log(oRef); // { note: '全く安全ではない！', note2: '大丈夫' 
   // IIFEの本体
 })();
 
+// 例
+const message = (function () {
+  const secret = "私は秘密です！";
+  return `秘密の長さは${secret.length}文字です。`;
+})();
+
+console.log(message); // 秘密の長さは7文字です。
+
+
+// 以下のようにすることで、何回関数が呼ばれたかを返すことができる！（この回数を外部からは操作できない！！）
+const func = (function () {
+  let count = 0;
+  return function () {
+    return `この関数が呼ばれた回数：${++count}回`;
+  }
+})();
+
+console.log(func()); // この関数が呼ばれた回数：1回
+console.log(func()); // この関数が呼ばれた回数：2回
+console.log(func()); // この関数が呼ばれた回数：3回
+
+
+/** 関数の巻き上げ */
+// varで宣言された変数のように、関数宣言もスコープの先頭に巻き上げられる！
+func2();  // 関数func2が呼び出された！
+function func2() {
+  console.log("関数func2が呼び出された！");
+}
+
+// 変数に代入された関数式は巻き上げられない！
+// func3(); // ReferenceError: Cannot access 'func3' before initialization
+let func3 = function () {
+  console.log("関数func3が呼び出された！");
+}
+
+
