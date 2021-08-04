@@ -46,3 +46,13 @@ console.log(arr4); // [ 1, 4, 'a', 'b', 6, 7 ]
 console.log(arr5); // [5] ← 削除された要素
 
 
+/** 配列内の要素の削除や置換 */
+let arr6 = [11, 12, 13, 14];
+let arr7 = arr6.copyWithin(1, 2); // arr6[1]の位置から置き換える。arr6[2]から最後までコピーする
+console.log(arr6); // [ 11, 13, 14, 14 ]
+console.log(arr7); // [ 11, 13, 14, 14 ] ← copyWithinはオブジェクト自身を返す
+console.log(arr6.copyWithin(2, 0, 2)); // [ 11, 13, 11, 13 ] ← arr6[2]の位置から置き換える。arr6[0]からarr6[2]の前までコピーする
+console.log(arr6.copyWithin(0, -3, -1)); // [ 13, 11, 11, 13 ]
+console.log(arr7); // [ 13, 11, 11, 13 ] ← arr6を変更すると同じ配列を指しているarr7も変わる
+
+
