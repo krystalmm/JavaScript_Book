@@ -56,3 +56,62 @@ console.log(arr6.copyWithin(0, -3, -1)); // [ 13, 11, 11, 13 ]
 console.log(arr7); // [ 13, 11, 11, 13 ] ← arr6を変更すると同じ配列を指しているarr7も変わる
 
 
+/** mapとfilter */
+// mapは配列内の要素を変換する！filterは配列から不要な要素を取り去る！mapもfilterもコピーを戻し、オリジナルの配列は変更しない！！
+const cart = [{name: "iPhone", price: 54800}, {name: "Android", price: 49800}];
+const names = cart.map(x => x.name);
+console.log(names); // [ 'iPhone', 'Android' ]
+const prices = cart.map(x => x.price);
+console.log(prices); // [ 54800, 49800 ]
+const discountPrices = prices.map(x => x * 0.8); // 2割引の価格
+console.log(discountPrices); // [ 43840, 39840 ]
+const lcNames = names.map(x => x.toLowerCase()); // 小文字にする
+console.log(lcNames); // [ 'iphone', 'android' ]
+
+const cards = [];
+// 全カードを生成
+for (let suit of ['heart', 'clover', 'diamond', 'spade']) {
+  for (let num = 1; num <= 13; num++) {
+    cards.push({suit, num});
+  }
+}
+
+let selectedCard = cards.filter(card => card.num === 2);
+console.log(selectedCard); // [{ suit: 'heart', num: 2 }, { suit: 'clover', num: 2 }, { suit: 'diamond', num: 2 }, { suit: 'spade', num: 2 }]
+
+
+/** reduce */
+// reduceは配列全体を変換する！
+const ar = [5, 7, 2, 4];
+const sum = ar.reduce((a, x) => a += x, 0);
+console.log(sum); // 18
+// 上記の+=の=は省略できる！
+// また、第二引数はundefinedの時、配列の最初の要素を初期値として受け取るので、上記の場合は0も省略できる！
+// 以下省略版
+// const sum = ar.reduce((a, x) => a + x);
+
+// 以下のようにオブジェクトをアキュムレータ（渡される第一引数）として使うこともできる！
+const words = ["Beachball", "Rodeo", "Angel", "Aardvark", "Xylophone", "November", "Chocolate", "Papaya", "Uniform", "Joker", "Clover", "Bali"];
+const alphabetical = words.reduce((a, x) => {
+  if (!a[x[0]]) {
+    // 先頭文字のプロパティがなければ空で作成
+    a[x[0]] = [];
+  }
+  a[x[0]].push(x); // 現在の要素を記憶！
+  return a; // オブジェクトを返す
+}, {});
+console.log(alphabetical);
+/* 実行結果
+{
+  B: [ 'Beachball', 'Bali' ],
+  R: [ 'Rodeo' ],
+  A: [ 'Angel', 'Aardvark' ],
+  X: [ 'Xylophone' ],
+  N: [ 'November' ],
+  C: [ 'Chocolate', 'Clover' ],
+  P: [ 'Papaya' ],
+  U: [ 'Uniform' ],
+  J: [ 'Joker' ]
+}
+*/
+
