@@ -115,3 +115,62 @@ console.log(alphabetical);
 }
 */
 
+// 以下は統計関係の例
+const data = [3.3, 5, 7.2, 12, 4, 6, 10.3];
+const stats = data.reduce((a, x) => {
+  a.N++;
+  let delta = x - a.mean;
+  a.mean += delta/a.N;
+  a.M2 += delta * (x - a.mean);
+  return a;
+}, {N: 0, mean: 0, M2: 0});
+if (stats.N > 2) {
+  stats.variance = stats.M2 / (stats.N - 1);
+  stats.stdev = Math.sqrt(stats.variance);
+}
+console.log(stats);
+/* 実行結果
+{
+  N: 7,
+  mean: 6.828571428571428,
+  M2: 63.41428571428572,
+  variance: 10.56904761904762,
+  stdev: 3.2510071699471257
+}
+ */
+
+// 以下は文字列をアキュムレータとして用いる例（trimは文字列の前後にある空白を削除するメソッド！最初の文字の時に空白ができるからそれを削除している！）
+const longWords = words.reduce((a, w) => w.length > 6 ? a + " " + w : a, "").trim();
+console.log(longWords); // Beachball Aardvark Xylophone November Chocolate Uniform
+
+
+/** 配列関連のメソッドと削除された要素、定義されていない要素 */
+// map, filter, reduceは削除されたり値が代入されたことのない要素に対しては関数を呼び出さない！
+// 例えば、以下のように配列の全ての要素を5にして初期化しようとしてもうまくいかない！！（全てundefinedになる！）
+const array = Array(10).map(function (x) { return 5 });
+console.log(array); // [ , , , , , , , , , ]
+
+// 同様に、配列の要素を削除してからmapを呼び出すと、配列の真ん中に「穴」ができてしまうことになる！
+const array2 = [1, 2, 3, 4, 5];
+delete array2[2];
+console.log(array2); // [1, 2,  , 4, 5]
+const result = array2.map(x => 0);
+console.log(result); // [0, 0,  , 0, 0]
+console.log(result[2]); // undefined
+
+
+/** join */
+// 配列の各要素をまとめて一つの文字列を作りたいという場合があり、そのような場合は、joinが使える！（第一引数はセパレータ（デフォルトは「,」になっている！））
+const array3 = [1, null, "hello", "world", true, undefined];
+delete array3[3];
+let result2 = array3.join();
+console.log(result2); // 1,,hello,,true,
+result2 = array3.join('');
+console.log(result2); // 1hellotrue
+result2 = array3.join(' -- ');
+console.log(result2); // 1 --  -- hello --  -- true --
+
+// joinを使って簡単にulリストを作ることができる！
+const お供 = ["キジ", "犬", "サル"];
+const html = '<ul><li>' + お供.join('</li><li>') + '</li></ul>';
+console.log(html); // <ul><li>キジ</li><li>犬</li><li>サル</li></ul>
