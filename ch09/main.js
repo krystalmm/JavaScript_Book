@@ -40,3 +40,66 @@ xochitl: 2
 xylophone: 5
  */
 
+
+/** クラスとインスタンス生成 */
+// クラス定義
+// class Car {
+//   constructor() {
+
+//   }
+// }
+
+// クラス生成
+// const car1 = new Car();
+
+
+// instanceof演算子（あるオブジェクトがあるクラスのオブジェクトであるかどうか確認できる演算子）
+// console.log(car1 instanceof Car); // true
+// console.log(car1 instanceof Array); // false
+
+
+// Carクラスに属性やメソッドを追加していく！
+class Car {
+  constructor(make, model) {
+    this.make = make; // メーカー
+    this.model = model; // モデル
+    this.userGears = ['P', 'N', 'R', 'D'];
+    this.userGear = this.userGears[0];
+  }
+  // ギアをシフト（変更）するメソッド
+  shift(gear) {
+    if (this.userGears.indexOf(gear) < 0) /** 例外の処理 */
+      throw new Error(`ギア指定が正しくない：${gear}`); // 例外をスローしてエラーを示す
+    this.userGear = gear;
+  }
+}
+
+const car1 = new Car("Tesla", "Model S");
+const car2 = new Car("Mazda", "3i");
+console.log(car1);
+/* 実行結果
+Car {
+  make: 'Tesla',
+  model: 'Model S',
+  userGears: [ 'P', 'N', 'R', 'D' ],
+  userGear: 'P'
+}
+ */
+console.log(car2);
+/* 実行結果
+Car {
+  make: 'Mazda',
+  model: '3i',
+  userGears: [ 'P', 'N', 'R', 'D' ],
+  userGear: 'P'
+}
+ */
+
+// ギアをDやRに入れる
+car1.shift('D');
+car2.shift('R');
+
+console.log(car1.userGear); // D
+console.log(car2.userGear); // R
+
+
