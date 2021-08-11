@@ -103,3 +103,52 @@ console.log(car1.userGear); // D
 console.log(car2.userGear); // R
 
 
+/** アクセッサプロパティ */
+// 直接ギアをセットされるのを防ぐためのアクセス制御はjsではできないため、アクセッサプロパティを使用する！（メソッドとプロパティの機能を併せ持つような存在！）
+class Car2 {
+  constructor(make, model) {
+    this.make = make;
+    this.model = model;
+    this._userGears = ['P', 'N', 'R', 'D'];
+    this._userGear = this._userGears[0];
+  }
+
+  get userGear() {return this._userGear};
+  set userGear(value) {
+    if (this._userGears.indexOf(value) < 0)
+      throw new Error(`ギア指定が正しくない：${value}`);
+    this._userGear = value;
+  }
+
+  shift(gear) {this.userGear = gear;}
+}
+const car3 = new Car2("Tesla", "Model S");
+const car4 = new Car2("Mazda", "3i");
+console.log(car3);
+/* 実行結果
+Car2 {
+  make: 'Tesla',
+  model: 'Model S',
+  _userGears: [ 'P', 'N', 'R', 'D' ],
+  _userGear: 'P'
+}
+ */
+
+console.log(car4);
+/* 実行結果
+Car2 {
+  make: 'Mazda',
+  model: '3i',
+  _userGears: [ 'P', 'N', 'R', 'D' ],
+  _userGear: 'P'
+}
+ */
+
+car3.shift('D');
+car4.shift('R');
+
+console.log(car3.userGear); // D
+console.log(car4.userGear); // R
+
+// car3.userGear = "X"; // Error: ギア指定が正しくない：X
+
